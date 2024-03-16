@@ -29,6 +29,21 @@ app.use(
   cors({origin: 'http://localhost:3000'})
 );
 app.use('/read/usernames', addMsgToRequest);
+app.get('/read/username/;name', (req, res) => {
+  let name = req.params.name;
+  let users_with_name = req.users.filter(function(user) {
+    return user.nusername === name;
+  });
+  console.log(users_with_name);
+  if(users_with_name === 0) {
+    res.send({
+      error: {messages: `${name} not found`, status: 404}
+    });
+  }
+  else {
+    res.send(users_with_name);
+  }
+})
 
 app.get('/read/usernames', (req, res) => {
   let usernames = req.users.map(function(user) {
